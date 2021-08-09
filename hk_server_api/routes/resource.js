@@ -97,7 +97,7 @@ router.get('/r_meta', (req, res, next) => {
 });
 
 // 上传直播封面图和焦点图
-router.post('/upload_resource', resource_img_up.single('resource_upload_img'), (req, res, next) => {
+router.post('/upload_resource', resource_img_up.single('profile'), (req, res, next) => {
     res.json({
         status: 1,
         msg: '图片上传成功',
@@ -109,29 +109,17 @@ router.post('/upload_resource', resource_img_up.single('resource_upload_img'), (
 
 // 添加资源
 router.post('/add', (req, res, next) => {
-    const {token, resource_name, resource_author, resource_publish_time, resource_content, resource_category_id, resource_classes_id, resource_area_id, resource_meta_id, resource_format_id, resource_img, resource_price, focus_img} = req.body;
+    const {token, staff_id, profile, name, position, phone, email} = req.body;
     if (req.session.token !== token) {
         res.json({
             status: 0,
             msg: '非法用户!'
         });
     } else {
-        if (resource_content && resource_content.length > 0) {
-            let fileArr = [];
-            let fileTag = new Date().getTime();
-            resource_content.forEach(function (n, i) {
-                let _arr = [];
-                for (let m in n) {
-                    _arr.push(n[m]);
-                }
-                _arr.push(fileTag);
-                fileArr.push(_arr);
-            });
+
             // 执行插入操作
-            let sql = `INSERT INTO t_resource_file(url, name, uid, tag) VALUES ?`;
-            Query(sql, [fileArr]).then((result) => {
-                const sql1 = `INSERT INTO t_resource(resource_name, resource_author, resource_publish_time, resource_content, resource_category_id, resource_classes_id, resource_area_id, resource_meta_id, resource_format_id, resource_img, resource_price,  focus_img) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);`;
-                const value = [resource_name, resource_author, resource_publish_time, fileTag, resource_category_id, resource_classes_id, resource_area_id, resource_meta_id, resource_format_id, resource_img, resource_price, focus_img];
+                const sql1 = `INSERT INTO t_resource(staff_id, profile, name, position, phone, email) VALUES (?,?,?,?,?,?);`;
+                const value = [staff_id, profile, name, position, phone, email];
                 Query(sql1, value).then((result) => {
                     res.json({
                         status: result.code,
@@ -144,15 +132,13 @@ router.post('/add', (req, res, next) => {
                         status: error.code,
                         data: error.data
                     })
-                })
-            }).catch((error) => {
+                }).catch((error) => {
                 res.json({
                     status: error.code,
                     data: error.data
                 })
             })
         }
-    }
 });
 
 
@@ -160,7 +146,7 @@ router.post('/add', (req, res, next) => {
 router.get('/list', (req, res, next) => {
     // 1. 获取页码和页数
     let pageNum = req.query.page_num || 1;
-    let pageSize = req.query.page_size || 4;
+    let pageSize = req.query.page_size || 10;
 
     let sql1 = `SELECT COUNT(*) as resource_count FROM t_resource;`;
     let sql2 = `SELECT * from t_resource limit ${(pageNum - 1) * pageSize}, ${pageSize}`;

@@ -16,21 +16,8 @@ export const getResourceFormat = () => ajax('/api/auth/resource/r_format');
 export const getResourceMeta = () => ajax('/api/auth/resource/r_meta');
 
 // 6. 添加
-export const addResource = (token, resource_name, resource_author, resource_publish_time, resource_content, resource_category_id, resource_classes_id, resource_area_id, resource_meta_id, resource_format_id, resource_img, resource_price, focus_img) => ajax('/api/auth/resource/add', {
-    token,
-    resource_name,
-    resource_author,
-    resource_publish_time,
-    resource_content,
-    resource_category_id,
-    resource_classes_id,
-    resource_area_id,
-    resource_meta_id,
-    resource_format_id,
-    resource_img,
-    resource_price,
-    focus_img
-}, 'post');
+export const addResource = (token, staff_id, profile, name, position, phone, email) => ajax('/api/auth/resource/add', {
+    token, staff_id, profile, name, position, phone, email}, 'post');
 
 // 7. 获取资源列表
 export const getResourceList = (page_num, page_size) => ajax('/api/auth/resource/list', {page_num, page_size});

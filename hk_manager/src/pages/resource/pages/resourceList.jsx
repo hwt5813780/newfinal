@@ -11,7 +11,7 @@ export default class ResourceList extends React.Component {
         this.state = {
             resourceList: [],
             totalSize: 0,
-            pageSize: 4
+            pageSize: 10
         }
     }
 
@@ -20,7 +20,7 @@ export default class ResourceList extends React.Component {
         this._loadData();
     }
 
-    _loadData = (page_num = 1, page_size = 4) => {
+    _loadData = (page_num = 1, page_size = 10) => {
         getResourceList(page_num, page_size).then((result) => {
             if (result && result.status === 1) {
                 message.success(result.msg);
@@ -41,12 +41,18 @@ export default class ResourceList extends React.Component {
             title: 'Profile', dataIndex: 'profile', key: 'profile', align: 'center',
             render: (text, record) => {
                 return (
-                    <img src={config.BASE_URL + record.resource_img} alt="profile" width={100}/>
+                    <img src={config.BASE_URL + record.profile} alt="profile" style={{width:50,borderRadius:'50%'}} />
                 )
             }
         },
         {title: 'Name', dataIndex: 'name', key: 'name', align: 'center'},
         {title: 'Position', dataIndex: 'position', key: 'position', align: 'center'},
+        {title: 'Phone', dataIndex: 'phone', key: 'phone', align: 'center'},
+        {title: 'email', dataIndex: 'email', key: 'email', align: 'center'},
+        {title: 'Purchase Quantity', dataIndex: 'purchase_quantity', key: 'purchase_quantity', align: 'center'},
+        {title: 'Purchase Cost', dataIndex: 'purchase_cost', key: 'purchase_cost', align: 'center'},
+        {title: 'Sale Quantity', dataIndex: 'sale_quantity', key: 'sale_quantity', align: 'center'},
+        {title: 'Sale Value', dataIndex: 'sale_value', key: 'sale_value', align: 'center'},
         {
             title: '操作', align: 'center',
             render: (text, record) => {

@@ -166,108 +166,19 @@ export default class ResourceEdit extends React.Component {
             <Card title="编辑幼教资源">
                 <Form  {...formItemLayout} onFinish={onFinish} ref={this.resourceFormRef}>
                     <Form.Item
-                        label={"资源名称"}
-                        name="resource_name"
-                        rules={[{required: true, message: '请输入资源名称!'}]}
+                        label={"Staff ID"}
+                        name="staff_id"
+                        rules={[{required: true, message: 'Enter the ID'}]}
                     >
-                        <Input/>
+                        <Input style={{width:'30%'}}/>
                     </Form.Item>
                     <Form.Item
-                        label={"资源作者"}
-                        name="resource_author"
-                        rules={[{required: true, message: '请输入作者姓名!'}]}
-                    >
-                        <Input/>
-                    </Form.Item>
-                    <Form.Item
-                        label="所属分类"
-                        name="resource_category_id"
-                        rules={[{required: true, message: '请选择所属分类!'}]}
-                    >
-                        <Select placeholder={"请选择所属分类"} style={{width: 200}}>
-                            {
-                                resource_category.map(item => {
-                                    return (
-                                        <Option value={item.id} key={item.id}>{item.category_name}</Option>
-                                    )
-                                })
-                            }
-                        </Select>
-                    </Form.Item>
-                    <Form.Item
-                        label="所属班级"
-                        name="resource_classes_id"
-                        rules={[{required: true, message: '请选择所属班级!'}]}
-                    >
-                        <Select placeholder={"请选择所属班级"} style={{width: 200}}>
-                            {
-                                resource_classes.map(item => {
-                                    return (
-                                        <Option value={item.id} key={item.id}>{item.classes_name}</Option>
-                                    )
-                                })
-                            }
-                        </Select>
-                    </Form.Item>
-                    <Form.Item
-                        label="所属领域"
-                        name="resource_area_id"
-                        rules={[{required: true, message: '请选择所属领域!'}]}
-                    >
-                        <Select placeholder={"请选择所属领域"} style={{width: 200}}>
-                            {
-                                resource_area.map(item => {
-                                    return (
-                                        <Option value={item.id} key={item.id}>{item.area_name}</Option>
-                                    )
-                                })
-                            }
-                        </Select>
-                    </Form.Item>
-                    <Form.Item
-                        label="素材选择"
-                        name="resource_meta_id"
-                        rules={[{required: true, message: '请选择素材!'}]}
-                    >
-                        <Select placeholder={"请选择素材"} style={{width: 200}}>
-                            {
-                                resource_meta.map(item => {
-                                    return (
-                                        <Option value={item.id} key={item.id}>{item.material_name}</Option>
-                                    )
-                                })
-                            }
-                        </Select>
-                    </Form.Item>
-                    <Form.Item
-                        label="素材格式"
-                        name="resource_format_id"
-                        rules={[{required: true, message: '请选择素材格式!'}]}
-                    >
-                        <Select placeholder={"请选择素材格式"} style={{width: 200}}>
-                            {
-                                resource_format.map(item => {
-                                    return (
-                                        <Option value={item.id} key={item.id}>{item.format_name}</Option>
-                                    )
-                                })
-                            }
-                        </Select>
-                    </Form.Item>
-                    <Form.Item
-                        label={"资源价格"}
-                        name="resource_price"
-                        rules={[{required: true, message: '请输入资源的价格!'}]}
-                    >
-                        <Input style={{width: 120}}/>
-                    </Form.Item>
-                    <Form.Item
-                        label={"资源封面图"}
+                        label={"Profile"}
                         name="resource_img"
                     >
                         <KaiUploadImg
-                            upLoadBtnTitle={"上传资源封面图"}
-                            upLoadName={"resource_upload_img"}
+                            upLoadBtnTitle={"Upload Profile"}
+                            upLoadName={"profile"}
                             upLoadAction={"/api/auth/resource/upload_resource"}
                             upImage={imageUrl}
                             successCallBack={(name) => {
@@ -278,84 +189,37 @@ export default class ResourceEdit extends React.Component {
                         />
                     </Form.Item>
                     <Form.Item
-                        label={"首页轮播图"}
-                        name="focus_img"
+                        label={"Name"}
+                        name="name"
+                        rules={[{required: true, message: 'Enter the name'}]}
                     >
-                        <KaiUploadImg
-                            upLoadBtnTitle={"上传首页焦点图"}
-                            upLoadName={"resource_upload_img"}
-                            upImage={focusImgUrl}
-                            upLoadAction={"/api/auth/resource/upload_resource"}
-                            successCallBack={(name) => {
-                                this.setState({
-                                    focusImgUrl: name
-                                })
-                            }}
-                        />
+                        <Input style={{width:'30%'}}/>
                     </Form.Item>
                     <Form.Item
-                        label={"幼教资源"}
-                        name="resource_content"
+                        label="Position"
+                        name="position"
+                        rules={[{required: true, message: 'Choose the position'}]}
                     >
-                        <Upload.Dragger
-                            name='resource_file'
-                            multiple={true}
-                            fileList={this.state.dragFileList}
-                            action={'/api/auth/resource/upload_many_file'}
-                            onChange={(info) => {
-                                // 补: 官方漏洞
-                                this.setState({
-                                    dragFileList: info.fileList.slice()
-                                });
-
-                                const {status} = info.file;
-                                if (status !== 'uploading') {
-                                    // console.log(info.file, info.fileList);
-                                }
-                                if (status === 'done') {
-                                    if (info.file.response && info.file.response.status === 1) {
-                                        let tempArr = this.state.dragFileList;
-                                        let tempA = [];
-                                        for (let i = 0; i < tempArr.length; i++) {
-                                            if (!tempArr[i].response) {
-                                                tempA.push(tempArr[i]);
-                                            }
-                                        }
-                                        tempArr = tempA;
-                                        tempArr.push(info.file.response.data);
-                                        this.setState({
-                                            dragFileList: tempArr
-                                        }, () => {
-                                            console.log(this.state.dragFileList);
-                                        })
-                                    }
-                                    message.success(`${info.file.name} 文件上传成功!`);
-                                } else if (status === 'error') {
-                                    message.error(`${info.file.name} 文件上传失败!`);
-                                }
-                            }}
-                            onRemove={(file) => {
-                                let tempArr = this.state.dragFileList;
-                                let newTempArr = [];
-                                for (let i = 0; i < tempArr.length; i++) {
-                                    if (tempArr[i].uid !== file.uid) {
-                                        newTempArr.push(tempArr[i]);
-                                    }
-                                }
-                                // 更新状态
-                                this.setState({
-                                    dragFileList: newTempArr
-                                }, () => {
-                                    console.log(this.state.dragFileList);
-                                })
-                            }}
-                        >
-                            <p className="ant-upload-drag-icon">
-                                <InboxOutlined/>
-                            </p>
-                            <p className="ant-upload-text">单击或者拖到文件到此区域上传</p>
-                            <p className="ant-upload-hint">支持单个或多上文件上传</p>
-                        </Upload.Dragger>
+                        <Select placeholder={"Choose Position"} style={{width: "30%"}}>
+                            <Option value="Manager" key="Manager">Manager</Option>
+                            <Option value="Purchaser" key="Purchaser">Purchaser</Option>
+                            <Option value="Salesman" key="Salesman">Salesman</Option>
+                            <Option value="Other" key="Other">Other</Option>
+                        </Select>
+                    </Form.Item>
+                    <Form.Item
+                        label={"Phone"}
+                        name="phone"
+                        rules={[{required: true, message: 'Enter the phone'}]}
+                    >
+                        <Input style={{width:'30%'}}/>
+                    </Form.Item>
+                    <Form.Item
+                        label={"Email"}
+                        name="email"
+                        rules={[{required: true, message: 'Enter the email'}]}
+                    >
+                        <Input style={{width:'30%'}}/>
                     </Form.Item>
                     <Form.Item
                         wrapperCol={{span: 16}}
