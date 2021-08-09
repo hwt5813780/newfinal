@@ -23,14 +23,13 @@ export default class ResourceList extends React.Component {
     _loadData = (page_num = 1, page_size = 10) => {
         getResourceList(page_num, page_size).then((result) => {
             if (result && result.status === 1) {
-                message.success(result.msg);
                 this.setState({
                     totalSize: result.data.resource_count,
                     resourceList: result.data.resource_list
                 })
             }
         }).catch(() => {
-            message.error('获取资源列表失败!');
+            message.error('Fail to list!');
         })
     };
 
@@ -54,39 +53,39 @@ export default class ResourceList extends React.Component {
         {title: 'Sale Quantity', dataIndex: 'sale_quantity', key: 'sale_quantity', align: 'center'},
         {title: 'Sale Value', dataIndex: 'sale_value', key: 'sale_value', align: 'center'},
         {
-            title: '操作', align: 'center',
+            title: 'Action', align: 'center',
             render: (text, record) => {
                 return (
                     <div>
-                        <Button onClick={() => {
+                        <Button type="link" onClick={() => {
                             this.props.history.push({
                                 pathname: '/resource/resource-edit',
                                 state: {
                                     resource: record
                                 }
                             });
-                        }}>编辑</Button>
+                        }}>Edit</Button>
                         <Divider type="vertical"/>
-                        <Button onClick={() => {
+                        <Button type="link" onClick={() => {
                             Modal.confirm({
-                                title: '确认删除吗?',
-                                content: '删除此资源,所有关联的内容都会被删除',
-                                okText: '确认',
-                                cancelText: '取消',
+                                title: 'Delete',
+                                content: 'Are you sure to delete the staff member?',
+                                okText: 'Yes',
+                                cancelText: 'No',
                                 onOk: () => {
                                     deleteResource(record.id).then(result => {
                                         if (result && result.status === 1) {
                                             message.success(result.msg);
                                             this._loadData();
                                         } else {
-                                            message.error('删除失败!');
+                                            message.error('Delete Failed!');
                                         }
                                     }).catch(() => {
-                                        message.error('删除失败!');
+                                        message.error('Delete Failed!');
                                     })
                                 }
                             });
-                        }}>删除</Button>
+                        }}>Delete</Button>
                     </div>
                 )
             }
@@ -99,12 +98,12 @@ export default class ResourceList extends React.Component {
             <Button type={"primary"} onClick={() => {
                 this.props.history.push('/resource/resource-add');
             }}>
-                添加幼教资源
+                Add New Staff Member
             </Button>
         );
 
         return (
-            <Card title={"幼教资源列表"} extra={addBtn}>
+            <Card title={"Staff List"} extra={addBtn}>
                 <Table
                     columns={this.columns}
                     dataSource={this.state.resourceList}

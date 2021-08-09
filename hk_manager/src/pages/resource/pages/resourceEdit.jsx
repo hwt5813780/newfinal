@@ -51,7 +51,7 @@ export default class ResourceEdit extends React.Component {
                 this.resourceFormRef.current.setFieldsValue(resourceItem);
                 // 封面图/轮播图/直播信息id
                 this.setState({
-                    imageUrl: resourceItem.resource_img, // 资源封面
+                    imageUrl: resourceItem.profile, // 资源封面
                     focusImgUrl: resourceItem.focus_img, // 轮播图封面
                     resource_id: resourceItem.id,
                     resource_content_tag: resourceItem.resource_content
@@ -163,7 +163,7 @@ export default class ResourceEdit extends React.Component {
 
         const {imageUrl, focusImgUrl} = this.state;
         return (
-            <Card title="编辑幼教资源">
+            <Card title="Edit staff information">
                 <Form  {...formItemLayout} onFinish={onFinish} ref={this.resourceFormRef}>
                     <Form.Item
                         label={"Staff ID"}
@@ -174,7 +174,7 @@ export default class ResourceEdit extends React.Component {
                     </Form.Item>
                     <Form.Item
                         label={"Profile"}
-                        name="resource_img"
+                        name="profile"
                     >
                         <KaiUploadImg
                             upLoadBtnTitle={"Upload Profile"}
@@ -225,10 +225,10 @@ export default class ResourceEdit extends React.Component {
                         wrapperCol={{span: 16}}
                     >
                         <div style={{textAlign: 'center', marginTop: 30}}>
-                            <Button type={"primary"} htmlType={"submit"} style={{marginRight: 15}}>修改</Button>
+                            <Button type={"primary"} htmlType={"submit"} style={{marginRight: 15}}>Complete</Button>
                             <Button onClick={() => {
                                 this.props.history.goBack()
-                            }}>取消</Button>
+                            }}>Cancel</Button>
                         </div>
                     </Form.Item>
                 </Form>

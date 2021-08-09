@@ -102,10 +102,6 @@ export default class AddResource extends React.Component {
 
         const onFinish = values => {
             const {imageUrl} = this.state;
-            if (!imageUrl) {
-                message.warning('请上传资源封面!');
-                return;
-            }
 
             // 1. 生成创建日期
             const resource_publish_time = Moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
@@ -134,7 +130,7 @@ export default class AddResource extends React.Component {
                     </Form.Item>
                     <Form.Item
                         label={"Profile"}
-                        name="resource_img"
+                        name="profile"
                     >
                         <KaiUploadImg
                             upLoadBtnTitle={"Upload Profile"}

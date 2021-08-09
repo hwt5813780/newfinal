@@ -123,7 +123,7 @@ router.post('/add', (req, res, next) => {
                 Query(sql1, value).then((result) => {
                     res.json({
                         status: result.code,
-                        msg: '新增资源成功!',
+                        msg: 'Added successfully',
                         data: {}
                     })
                 }).catch((error) => {
@@ -165,7 +165,7 @@ router.get('/list', (req, res, next) => {
         }).catch((error) => {
             res.json({
                 status: error.code,
-                msg: '获取资源列表失败!',
+                msg: 'Failed to list!',
                 data: error.data
             })
         })
@@ -204,13 +204,13 @@ router.get('/delete_resource', (req, res, next) => {
     Query(sql, [id]).then((result) => {
         res.json({
             status: result.code,
-            msg: '删除成功!',
+            msg: 'Deleted successfully!',
             data: {}
         })
     }).catch((error) => {
         res.json({
             status: error.code,
-            msg: '删除失败!',
+            msg: 'Deleted failed!',
             data: error.data
         })
     })
